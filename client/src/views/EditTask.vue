@@ -10,7 +10,12 @@
       </div>
       <div><h3>Name</h3></div>
       <div class="col-span-2">
-        <p class="text-center">{{ getTaskById.name }}</p>
+        <input
+          v-model="name"
+          class="py-1 bg-slate-200 min-w-[230px] indent-3 rounded-lg"
+          type="text"
+          placeholder="e.g. wash dishes"
+        />
       </div>
       <div><label for="status">Checked</label></div>
       <div class="flex justify-center col-span-2">
@@ -19,9 +24,18 @@
           type="checkbox"
           id="status"
           name="status"
-          checked
+          v-model="completed"
         />
       </div>
+    </div>
+    <div class="flex justify-center mt-6">
+      <button
+        @click="updateTaskById(task.id, { name, completed })"
+        class="ml-5 bg-purple-300 py-1 px-2 text-white rounded-lg"
+        type="submit"
+      >
+        Apply Changes
+      </button>
     </div>
   </div>
 </template>
@@ -29,8 +43,11 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { useTaskStore } from "../store/tasks";
+import { toRefs } from "vue";
 
 const { params: task } = useRoute();
 
-const { getTaskById } = useTaskStore();
+const { getTaskById, updateTaskById } = useTaskStore();
+
+const { name, completed } = toRefs(getTaskById(task.id)); // Access the value of the computed property
 </script>

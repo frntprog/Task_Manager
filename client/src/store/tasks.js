@@ -17,12 +17,17 @@ export const useTaskStore = defineStore("tasks", () => {
     );
   };
 
+  const updateTaskById = async (taskId, updates) => {
+    console.log(updates);
+    const response = await axios.patch(`tasks/${taskId}`, updates);
+    console.log(response);
+  };
+
   const getAllTasks = computed(() => {
     return tasks;
   });
 
-  const getTaskById = computed((id) => {
-    console.log("tasks", tasks);
+  const getTaskById = computed(() => (id) => {
     return tasks.value.find((el) => el._id === id);
   });
 
@@ -34,6 +39,7 @@ export const useTaskStore = defineStore("tasks", () => {
   return {
     createTask,
     fetchAllTasks,
+    updateTaskById,
     deleteSingleTask,
     getAllTasks,
     getTaskById,
